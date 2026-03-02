@@ -9,9 +9,15 @@ const loginUser = async (req, res) => {
         return res.status(400).json({ message: 'username and password are required' })
     }
 
-    const user = User.findOne({ username, password })
+    const user = await User.findOne({ username, password })
     if(user)
-        return res.status(200).json({ message: 'Login successful' })
+        return res.status(200).json({ 
+            message: 'Login successful',
+            user:{
+                username: user.username,
+                role: user.role
+            }
+     })
     else
         return res.status(401).json({ message: 'Invalid username or password' })
 }
